@@ -22,15 +22,24 @@ namespace UnitTest1
         {
 
             IWebDriver driver = new ChromeDriver();
-            // Go to a page 
+// Go to ebay page 
             driver.Navigate().GoToUrl("http://www.ebay.com");
 
-            // Get the page elements
+//Go to search box and type 'elephant handicraft'
             IWebElement searchBox = driver.FindElement(By.XPath(".//*[id='gh-ac']"));
             searchBox.SendKeys("elephant handicraft");
-
+//click search button
             IWebElement clickSearch = driver.FindElement(By.XPath(".//*[id='gh-btn']"));
             clickSearch.Click();
+
+// Extract the search results and save it to result.txt
+            var result = driver.FindElementByXPath(".//*[@id='Results']").Text;
+            File.WriteAllText("result.txt", result);
+
+// Also take a screenshot and save it into result.jpg
+             driver.GetScreenshot().SaveAsFile(@"result.png", ImageFormat.jpg);
+            
+//Close the browser
             driver.Quit();
 
         }
@@ -40,10 +49,3 @@ namespace UnitTest1
    
 
 
-
-// Extract the text and save it into result.txt
-// var result = driver.FindElementByXPath("//div[@id='case_login']/h3").Text;
-// File.WriteAllText("result.txt", result);
-
-// Take a screenshot and save it into screen.png
-// driver.GetScreenshot().SaveAsFile(@"screen.png", ImageFormat.Png);
